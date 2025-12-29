@@ -1,0 +1,30 @@
+{
+  "type": "metric alert",
+  "query": "sum(last_5m):sum:llm.usage.total_tokens{*}.as_count() > 100000",
+  "name": "LLM Denial of Wallet (DoW) Attack Detection",
+  "message": "Alert: Potential Denial of Wallet attack detected. Total LLM tokens exceeded threshold of 100,000 in the last 5 minutes. This may indicate an attacker attempting to exhaust API quota by generating excessive token usage.\n\n@slack-alerts @email-security-team",
+  "tags": [
+    "llm",
+    "security",
+    "dow",
+    "denial-of-wallet"
+  ],
+  "options": {
+    "notify_audit": true,
+    "require_full_window": false,
+    "notify_no_data": false,
+    "renotify_interval": 60,
+    "escalation_message": "Escalation: DoW attack still active. Consider rate limiting or blocking suspicious user sessions.",
+    "thresholds": {
+      "critical": 100000,
+      "warning": 50000
+    },
+    "evaluation_delay": 0,
+    "new_host_delay": 300,
+    "no_data_timeframe": null,
+    "include_tags": true,
+    "silenced": {}
+  },
+  "priority": 1
+}
+
